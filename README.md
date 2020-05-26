@@ -61,6 +61,11 @@ Se não quiser usar o Servidor web embutido do PHP e já tiver um servidor Apach
 sudo chmod -R 777 storage/framework storage/logs
 ```
 
+## Tests
+```
+php vendor/bin/phpunit
+```
+
 ## Routes
 | Method    | URI                   | Action                    |
 |-----------|-----------------------|---------------------------|
@@ -87,7 +92,7 @@ sudo chmod -R 777 storage/framework storage/logs
 - [x] ~~Documentar com MarkDown (README.md)~~
 - [x] ~~Diagrama dos endpoints~~
 - [x] ~~Faker para o Factory & Seed~~
-- [  ] TDD
+- [x] ~~TDD~~
 
 
 ## Script History
@@ -193,6 +198,7 @@ sed -i "/this->call('UsersTableSeeder');/a \\\t\tfactory(App\\\User::class, 4)->
 * [Reliese Laravel](https://github.com/reliese/laravel) - Collection of Components for code generation.
 * [JWT-Auth](https://github.com/tymondesigns/jwt-auth) - JSON Web Token Authentication.
 * [Lumen-Generators](https://github.com/webNeat/lumen-generators) - A collection of generators for Lumen
+* [Laravel-Test-Factory-Helper](https://github.com/mpociot/laravel-test-factory-helper) - Generate Laravel test factories
 
 
 ## License
