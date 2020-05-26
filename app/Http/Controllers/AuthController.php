@@ -1,54 +1,85 @@
 <?php namespace App\Http\Controllers;
 
-use Auth, Validator;
+use Auth;
 use App\User;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function postRegister()
+    /**
+     * Store a new user.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function register(Request $request)
     {
-        $rules = [
-            'email' => 'required|email',
-            'password' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
-        ];
+        //validate incoming request 
+        $this->validate($request, User::$rules);
 
-        $input = $_POST;
+        try {
 
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            return $this->respondWithFailedValidation($validator);
+            $user = new User;
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $plainPassword = $request->input('password');
+		//$user->password = bcrypt($input['password']);
+            $user->password = app('hash')->make($plainPassword);
+
+            $user->save();
+
+            //return successful response
+            return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
+
+        } catch (\Exception $e) {
+            //return error message
+            return response()->json(['message' => 'User Registration Failed!'], 409);
         }
 
-        $user = new User();
-        $user->email    = $input['email'];
-        $user->password = bcrypt($input['password']);
-        $user->first_name = $input['first_name'];
-        $user->last_name = $input['last_name'];
-        $user->save();
-
-        return $this->respondWithSuccess('Register successful');
     }
 
-    public function postLogin()
+    /**
+     * Get a JWT token via given credentials.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(Request $request)
     {
-        $rules = [
-            'email' => 'required|email',
-            'password' => 'required',
-        ];
+        $credentials = $request->only('email', 'password');
 
-        $input = $_POST;
-
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            return $this->respondWithFailedValidation($validator);
+        if ($token = $this->guard()->attempt($credentials)) {
+            return $this->respondWithToken($token);
         }
 
-        if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']])) {
-            return $this->respondWithSuccess('Login successful');
-        } else {
-            return $this->respondWithErrors(['Invalid Email/Password pair']);
-        }
+        return response()->json(['error' => 'Invalid Login Details'], 401);
+    }
+
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type'   => 'bearer',
+            'expires_in'   => $this->guard()->factory()->getTTL() * 60,
+        ]);
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\Guard
+     */
+    public function guard()
+    {
+        return Auth::guard();
     }
 }

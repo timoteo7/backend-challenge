@@ -34,8 +34,8 @@ sudo chmod -R 777 storage/framework storage/logs
 
 ## ToDo
 
-- [  ] Cadastro de usuários (atualização e remoção ?)
-- [  ] Autenticação utilizando JWT
+- [x] ~~Cadastro de usuários~~ (atualização e remoção ?)
+- [x] ~~Autenticação utilizando JWT~~
 - [  ] Crud de produtos
 - [  ] Relação com Variação de Cores
 - [  ] Documentar com MarkDown (README.md)
@@ -86,6 +86,27 @@ sed -i "/app->withEloquent();/ s/\/\/ //" bootstrap/app.php
 wget -P config https://gist.githubusercontent.com/mabasic/7979d67ce3ec75a5938e3d14575736a6/raw/61d1e5d49a450c3aae2289ef4c55c900e99180b6/auth.php
 wget -P app/Http/Controllers https://raw.githubusercontent.com/buzdyk/Lumen/master/app/Http/Controllers/AuthController.php
 sed -i "N;/router->app->version();\n});/a \\\n\$router->group(['prefix' => 'api'], function () use (\$router) {\n\t\$router->post('user', 'AuthController@register');\n\t\$router->post('login', 'AuthController@login');\n});" routes/web.php
+```
+
+```
+                 s="codigo:";           s+="string(60):nullable, ";\
+                s+="descricao:";        s+="text, ";\
+                s+="unidade:";          s+="string(50):nullable, ";\
+                s+="valor:";            s+="decimal(15,2), ";\
+                s+="sku:";              s+="string(100):nullable, ";\
+                s+="codFiscal:";        s+="string(60):nullable, ";\
+                s+="NCM:";              s+="string(30):nullable, ";\
+                s+="pesoLiquido:";      s+="unsignedInteger:nullable, ";\
+                s+="tamanho:";          s+="string(30):nullable, ";\
+                s+="material:";         s+="string(50):nullable, ";\
+                s+="categoria:";        s+="string(50):nullable, ";\
+                s+="caracteristica:";   s+="text:nullable, ";\
+                s+="fabricante:";       s+="string(190):nullable, ";\
+                s+="urlImagem:";        s+="string(190):nullable, ";\
+                s+="estoqueMinimo:";    s+="unsignedInteger:nullable ";\
+php artisan make:migration:schema create_products_table --schema="$s" --model=0
+php artisan migrate
+php artisan code:models
 ```
 
 ## Topics (tags)
