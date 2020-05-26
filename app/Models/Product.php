@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -30,12 +31,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $estoqueMinimo
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * 
+ * @property Collection|Variation[] $variations
  *
  * @package App\Models
  */
 class Product extends Model
 {
 	protected $table = 'products';
+
+	protected $with = ['variations'];
 
 	protected $casts = [
 		'valor' => 'float',
@@ -68,4 +73,8 @@ class Product extends Model
         "estoqueMinimo" => "numeric",
 	];
 	
+	public function variations()
+	{
+		return $this->hasMany(Variation::class);
+	}
 }

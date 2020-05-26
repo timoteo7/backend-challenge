@@ -109,6 +109,14 @@ php artisan migrate
 php artisan code:models
 ```
 
+```
+                 s="cor:";          s+="string(100),";\
+                s+="product_id:";   s+="unsignedInteger:foreign";\
+php artisan make:migration:schema create_variations_table --schema="$s" --model=0
+php artisan migrate
+php artisan code:models
+```
+
 ## Topics (tags)
 ##### #Product  #Colors
 
