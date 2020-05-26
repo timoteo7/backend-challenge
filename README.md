@@ -73,6 +73,10 @@ sudo chmod -R 777 storage/framework storage/logs
 | DELETE    | api/product/{}        | ProductController@destroy |
 
 
+## Diagram
+![Diagram](resources/diagram.png "Diagram" )
+
+
 
 ## ToDo
 
@@ -81,8 +85,8 @@ sudo chmod -R 777 storage/framework storage/logs
 - [x] ~~Crud de produtos~~
 - [x] ~~Relação com Variação de Cores~~
 - [x] ~~Documentar com MarkDown (README.md)~~
-- [  ] Diagrama dos endpoints
-- [  ] Faker para o Factory & Seed
+- [x] ~~Diagrama dos endpoints~~
+- [x] ~~Faker para o Factory & Seed~~
 - [  ] TDD
 
 
@@ -164,6 +168,13 @@ composer require wn/lumen-generators
 sed -i "N;/{\n\s*\/\//a \\\t\tif (\$this->app->environment() == 'local') {\n\t\t\t\$this->app->register('Wn\\\Generators\\\CommandsServiceProvider');\n\t\t}" app/Providers/AppServiceProvider.php
 php artisan wn:controller:rest-actions
 php artisan wn:controller Product
+```
+
+```
+composer require mpociot/laravel-test-factory-helper --dev
+sed -i "/EventServiceProvider/a \\\$app->register(Mpociot\\\LaravelTestFactoryHelper\\\TestFactoryHelperServiceProvider::class);" bootstrap/app.php
+php artisan generate:model-factory
+sed -i "/this->call('UsersTableSeeder');/a \\\t\tfactory(App\\\User::class, 4)->create();\n\t\tApp\\\User::firstOrCreate(['name' => 'Teste','email' => 'teste@teste.com'], ['password' => bcrypt('12345678'), 'updated_at' => date('Y-m-d H:i:s'), ]);" database/seeds/DatabaseSeeder.php
 ```
 
 ## Topics (tags)
