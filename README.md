@@ -1,23 +1,96 @@
-# Lumen PHP Framework
+# Teste Programador PHP Back-end Pleno
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+sistema de produtos com *variações de cores*
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+## Clone
 
-## Official Documentation
+```
+git clone https://github.com/timoteo7/backend-challenge.git
+```
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+## Install
 
-## Contributing
+```sh
+composer install
+```
+em seu arquivo `.env` defina os dados do teu banco de dados: 
+DB_DATABASE, DB_USERNAME, DB_PASSWORD
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Usage
 
-## Security Vulnerabilities
+```sh
+php artisan migrate:fresh --seed
+php -S localhost:8000 -t public
+```
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+## Setup (Optional)
+
+Se não quiser usar o Servidor web embutido do PHP e já tiver um servidor Apache (http://localhost/backend-challenge/)
+
+```
+sudo chmod -R 777 storage/framework storage/logs
+```
+
+
+## ToDo
+
+- [  ] Cadastro de usuários (atualização e remoção ?)
+- [  ] Autenticação utilizando JWT
+- [  ] Crud de produtos
+- [  ] Relação com Variação de Cores
+- [  ] Documentar com MarkDown (README.md)
+- [  ] Diagrama dos endpoints
+- [  ] Faker para o Factory & Seed
+- [  ] TDD
+
+
+## Script History
+
+```
+composer create-project laravel/lumen backend-challenge && cd backend-challenge
+git init && git add . && git commit -m 'Lumen'
+wget https://raw.githubusercontent.com/timoteo7/files/master/.htaccess
+wget https://raw.githubusercontent.com/Scalingo/sample-php-lumen/master/server.php
+```
+
+```
+composer require laracasts/generators --dev
+sed -i "/AppServiceProvider/ s/\/\/ //" bootstrap/app.php
+sed -i "N;/{\n\s*\/\//a \\\t\tif (\$this->app->environment() == 'local') {\n\t\t\t\$this->app->register('Laracasts\\\Generators\\\GeneratorsServiceProvider');\n\t\t}" app/Providers/AppServiceProvider.php
+                 s="name:";            s+="string(190), ";\
+                s+="email:";           s+="string(150):unique, ";\
+                s+="password:";        s+="string(190):nullable ";\
+php artisan make:migration:schema create_users_table --schema="$s" --model=0
+php artisan migrate
+```
+
+```
+composer require irazasyed/larasupport
+composer require reliese/laravel --dev
+mkdir config 2>/dev/null
+cp vendor/reliese/laravel/config/models.php config/models.php
+sed -i "s/app_path('Models')/base_path('app\/Models')/" config/models.php
+sed -i "/app->configure('app');/a \\\$app->configure('models');" bootstrap/app.php
+sed -i "N;/{\n\s*\/\//a \\\t\tif (\$this->app->environment() == 'local') {\n\t\t\t\$this->app->register(\\\Reliese\\\Coders\\\CodersServiceProvider::class);\n\t\t}" app/Providers/AppServiceProvider.php
+php artisan code:models
+```
+
+
+## Topics (tags)
+##### #Product  #Colors
+
+## Author
+
+👤 **[Timóteo](https://timoteo7.github.io/)**
+
+
+
+## Built With
+
+* [Lumen](https://github.com/laravel/lumen) - The stunningly fast micro-framework by Laravel.
+* [Laravel-Generators-Extended](https://github.com/laracasts/Laravel-5-Generators-Extended) - Extends the core file generators.
+* [Reliese Laravel](https://github.com/reliese/laravel) - Collection of Components for code generation.
+
 
 ## License
 
