@@ -23,6 +23,36 @@ php artisan migrate:fresh --seed
 php -S localhost:8000 -t public
 ```
 
+`POST:/api/login` (JSON)
+```json
+{
+    "email":"teste@teste.com",
+    "password":"12345678"
+}
+```
+
+`POST:/api/product` (JSON)
+```json
+{
+    "codigo":"1234",
+    "descricao":"Produto TESTE",
+    "unidade":"kg",
+    "valor":"12.34",
+    "sku":"ABC-ZY-XX-1234-B",
+    "codFiscal":"C123NF",
+    "NCM":"9999.99.99",
+    "pesoLiquido":"55",
+    "tamanho":"Grande",
+    "material":"fibra",
+    "categoria":"encalhado",
+    "caracteristica":"Sem garantia",
+    "fabricante":"João S.A.",
+    "urlImagem":"http://www.google.com",
+    "estoqueMinimo":"5",
+	"variations": ["Verde", "Amarelo"]
+}
+```
+
 ## Setup (Optional)
 
 Se não quiser usar o Servidor web embutido do PHP e já tiver um servidor Apache (http://localhost/backend-challenge/)
@@ -31,14 +61,26 @@ Se não quiser usar o Servidor web embutido do PHP e já tiver um servidor Apach
 sudo chmod -R 777 storage/framework storage/logs
 ```
 
+## Routes
+| Method    | URI                   | Action                    |
+|-----------|-----------------------|---------------------------|
+| POST      | api/user              | AuthController@store      |
+| POST      | api/login             | AuthController@login      |
+| GET       | api/product           | ProductController@index   |
+| GET       | api/product/{}        | ProductController@show    |
+| POST      | api/product           | ProductController@store   |
+| PUT       | api/product/{}        | ProductController@update  |
+| DELETE    | api/product/{}        | ProductController@destroy |
+
+
 
 ## ToDo
 
 - [x] ~~Cadastro de usuários~~ (atualização e remoção ?)
 - [x] ~~Autenticação utilizando JWT~~
-- [  ] Crud de produtos
-- [  ] Relação com Variação de Cores
-- [  ] Documentar com MarkDown (README.md)
+- [x] ~~Crud de produtos~~
+- [x] ~~Relação com Variação de Cores~~
+- [x] ~~Documentar com MarkDown (README.md)~~
 - [  ] Diagrama dos endpoints
 - [  ] Faker para o Factory & Seed
 - [  ] TDD
@@ -117,6 +159,13 @@ php artisan migrate
 php artisan code:models
 ```
 
+```
+composer require wn/lumen-generators
+sed -i "N;/{\n\s*\/\//a \\\t\tif (\$this->app->environment() == 'local') {\n\t\t\t\$this->app->register('Wn\\\Generators\\\CommandsServiceProvider');\n\t\t}" app/Providers/AppServiceProvider.php
+php artisan wn:controller:rest-actions
+php artisan wn:controller Product
+```
+
 ## Topics (tags)
 ##### #Product  #Colors
 
@@ -132,6 +181,7 @@ php artisan code:models
 * [Laravel-Generators-Extended](https://github.com/laracasts/Laravel-5-Generators-Extended) - Extends the core file generators.
 * [Reliese Laravel](https://github.com/reliese/laravel) - Collection of Components for code generation.
 * [JWT-Auth](https://github.com/tymondesigns/jwt-auth) - JSON Web Token Authentication.
+* [Lumen-Generators](https://github.com/webNeat/lumen-generators) - A collection of generators for Lumen
 
 
 ## License

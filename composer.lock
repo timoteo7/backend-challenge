@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0363bc0e5b6b630c33782427471bd157",
+    "content-hash": "0756110c9547f6cc8a89b1e731cb6b48",
     "packages": [
         {
             "name": "brick/math",
@@ -5898,6 +5898,54 @@
                 "validate"
             ],
             "time": "2020-04-18T12:12:48+00:00"
+        },
+        {
+            "name": "wn/lumen-generators",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amazing-com/lumen-generators.git",
+                "reference": "335e8d788655bd62d442ee3ed5f749177f75ce40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amazing-com/lumen-generators/zipball/335e8d788655bd62d442ee3ed5f749177f75ce40",
+                "reference": "335e8d788655bd62d442ee3ed5f749177f75ce40",
+                "shasum": ""
+            },
+            "require": {
+                "fzaninotto/faker": "^1.5",
+                "illuminate/console": "^7.0",
+                "illuminate/filesystem": "^7.0",
+                "php": ">=5.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Wn\\Generators\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amine Ben hammou",
+                    "email": "webneat@gmail.com"
+                }
+            ],
+            "description": "A collection of generators for Lumen and Laravel 5.",
+            "keywords": [
+                "api",
+                "generators",
+                "laravel",
+                "lumen",
+                "rest"
+            ],
+            "support": {
+                "source": "https://github.com/amazing-com/lumen-generators/tree/master"
+            },
+            "time": "2020-05-15T15:09:48+00:00"
         }
     ],
     "aliases": [],

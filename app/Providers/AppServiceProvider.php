@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
 		if ($this->app->environment() == 'local') {
+			$this->app->register('Wn\Generators\CommandsServiceProvider');
 			$this->app->register(\Reliese\Coders\CodersServiceProvider::class);
 			$this->app->register('Laracasts\Generators\GeneratorsServiceProvider');
 		}
