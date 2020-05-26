@@ -75,6 +75,18 @@ sed -i "N;/{\n\s*\/\//a \\\t\tif (\$this->app->environment() == 'local') {\n\t\t
 php artisan code:models
 ```
 
+```
+composer require tymon/jwt-auth
+sed -i "/AuthServiceProvider/ s/\/\/ //" bootstrap/app.php
+sed -i "/EventServiceProvider/a \\\$app->register(Tymon\\\JWTAuth\\\Providers\\\LumenServiceProvider::class);" bootstrap/app.php
+sed -i "1N;$!N; s/\/\/ \(\$app->routeMiddleware.*\n\)\/\/ \(\s*'auth'.*\n\)\/\/ /\1\2/;P;D" bootstrap/app.php
+php artisan jwt:secret
+sed -i "/app->withFacades();/ s/\/\/ //" bootstrap/app.php
+sed -i "/app->withEloquent();/ s/\/\/ //" bootstrap/app.php
+wget -P config https://gist.githubusercontent.com/mabasic/7979d67ce3ec75a5938e3d14575736a6/raw/61d1e5d49a450c3aae2289ef4c55c900e99180b6/auth.php
+wget -P app/Http/Controllers https://raw.githubusercontent.com/buzdyk/Lumen/master/app/Http/Controllers/AuthController.php
+sed -i "N;/router->app->version();\n});/a \\\n\$router->group(['prefix' => 'api'], function () use (\$router) {\n\t\$router->post('user', 'AuthController@register');\n\t\$router->post('login', 'AuthController@login');\n});" routes/web.php
+```
 
 ## Topics (tags)
 ##### #Product  #Colors
@@ -90,6 +102,7 @@ php artisan code:models
 * [Lumen](https://github.com/laravel/lumen) - The stunningly fast micro-framework by Laravel.
 * [Laravel-Generators-Extended](https://github.com/laracasts/Laravel-5-Generators-Extended) - Extends the core file generators.
 * [Reliese Laravel](https://github.com/reliese/laravel) - Collection of Components for code generation.
+* [JWT-Auth](https://github.com/tymondesigns/jwt-auth) - JSON Web Token Authentication.
 
 
 ## License
